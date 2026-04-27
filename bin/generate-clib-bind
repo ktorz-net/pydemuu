@@ -1,0 +1,122 @@
+#!/usr/bin/python3
+# ------------------------------------------------------------------------ #
+#             C   T O   P Y  -  A   D e M U U   T O O L 
+#
+# Generate python access primitive from a c-header file.
+# Supose 'simple' c-header file: 
+#     - functions return only classical type (cf. typeDico) our pointers
+# ------------------------------------------------------------------------ #
+
+import re
+
+reVoidLine= re.compile(r"^[ \t\n]*$")
+reParameter= re.compile(r"([a-zA-Z-09_]+ *\**) ([a-zA-Z0-9_]+)")
+typeDico= {
+    "short": "c_short",
+    "int": "c_int",
+    "long": "c_long",
+    "ushort": "c_ushort",
+    "uint": "c_uint",
+    "ulong": "c_ulong",
+    "float": "c_float",
+    "double": "c_double",
+    "digit": "c_digit",
+    "bool": "c_digit",
+    "hash": "c_hash",
+}
+
+header= r"""import os, ctypes, platform
+
+# ------------------------------------------------------------------------ #
+#            P Y T H O N   W R A P E R   O F   l i b D e m u u
+#
+# - generated with bin/generate-c-binding
+# - Binding of HEADER_FILE.h
+# 
+#                /!\ THIS FILE SHOULD NOT BE MODIFIED /!\
+# ------------------------------------------------------------------------ #
+
+# Usefull ctype types:
+
+from ctypes import c_ushort, c_ulong, c_double, c_void_p
+
+# Usefull Demuu basis types:
+
+c_digit, c_hash= c_ushort, c_ulong
+
+# CArray tools :
+
+def makeCArray( c_type, size, value ):
+    Array= c_type * size
+    cArray= Array()
+    for i in range(size) :
+        cArray[i]= (c_type)( value )
+    return cArray
+
+def makeCArrayAs( c_type, size, pythonLst ):
+    Array= c_type * size
+    cArray= Array()
+    for i in range(size) :
+        cArray[i]= (c_type)( pythonLst[i] )
+    return cArray
+
+def readCArray( py_type, c_type, size, arrayPointer ):
+    pLst= ctypes.cast(arrayPointer, ctypes.POINTER(c_type))
+    return [ (py_type)(pLst[i]) for i in range(size) ]
+
+# Load C Demuu librairy : 
+
+demuuDir= os.path.dirname(os.path.realpath(__file__))
+demuuCLib= demuuDir+f"/{platform.system()}-{platform.machine()}/libDemuu.so"
+print( f"BbMm>>>> LOAD: {demuuCLib} <<<" )
+core = ctypes.cdll.LoadLibrary( demuuCLib )
+
+# HEADER_FILE.h wrap :
+
+"""
+
+def convert( cHeaderFile, pythonFile ):
+    fch= open( cHeaderFile, 'r' )
+    fpy= open( pythonFile, 'w' )
+
+    fpy.write( header.replace("HEADER_FILE.h", cHeaderFile) )
+
+    fctLine= re.compile(r"([a-zA-Z-09_]+ *\**) ([a-zA-Z0-9_]+)\(([\w\W]*)\);")
+
+    for line in fch :
+        fct= fctLine.match(line)
+        if fct :
+            convertFct( fpy, fct.group(2), fct.group(1), fct.group(3) )
+
+    fch.close()
+    fpy.close()
+
+def convertFct( fpy, fctName, returnType, parameterStr ):
+    parameterStr= parameterStr.strip()
+    parameters= []
+    pyParamType= []
+    isOk= True
+    if parameterStr != '' :
+        parameters= [ p.strip() for p in parameterStr.split(',') ]
+        for p in parameters :
+            m= reParameter.match(p)
+            if m :
+                pyParamType.append( pythonType(m.group(1)) )
+            else :
+                print( f"ERROR: format on : {fctName}({parameterStr})")
+                pyParamType.append( "ERROR" )
+                isOk= False
+
+    if isOk :
+        fpy.write( f"\n# {returnType} {fctName}( {', '.join(parameters)} );\n")
+        fpy.write( f"{fctName}= core.{fctName}\n")
+        fpy.write( f"{fctName}.restype= {pythonType(returnType)}\n")
+        fpy.write( f"{fctName}.argtypes= ["+ ", ".join(pyParamType) +"]\n")
+
+def pythonType( cType ):
+    pytype= "c_void_p"
+    if cType in typeDico :
+        pytype= typeDico[cType]
+    return pytype
+
+convert( "src/demuu/clib/demuu.h", "src/demuu/clib/clibdemuu.py" )
