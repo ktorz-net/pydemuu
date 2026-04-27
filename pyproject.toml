@@ -1,0 +1,24 @@
+[build-system]
+requires = ["flit_core >= 3.4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "Demuu"
+version = "0.1.0"
+authors = [
+  { name="Guillaume Lozenguez", email="guillaume@ktorz.net" },
+]
+description = "Python wrap of libDemuu"
+readme = "docs/pypip-index.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.flit.module]
+name = "demuu"
+
+[project.urls]
+Homepage = "https://ktorz-net.github.io/pyDemuu"
