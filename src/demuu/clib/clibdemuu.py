@@ -1147,120 +1147,120 @@ DuCondition_printIdentity= core.DuCondition_printIdentity
 DuCondition_printIdentity.restype= c_void_p
 DuCondition_printIdentity.argtypes= [c_void_p, c_void_p]
 
-# DuInferer* newDuInferer( DuCode* variableSpace, digit inputDimention, digit outputDimention );
-newDuInferer= core.newDuInferer
-newDuInferer.restype= c_void_p
-newDuInferer.argtypes= [c_void_p, c_digit, c_digit]
+# DuDynamic* newDuDynamic( DuCode* variableSpace, digit inputDimention, digit outputDimention );
+newDuDynamic= core.newDuDynamic
+newDuDynamic.restype= c_void_p
+newDuDynamic.argtypes= [c_void_p, c_digit, c_digit]
 
-# DuInferer* newDuInfererStateAction( DuCode* stateSpace, DuCode* actionSpace );
-newDuInfererStateAction= core.newDuInfererStateAction
-newDuInfererStateAction.restype= c_void_p
-newDuInfererStateAction.argtypes= [c_void_p, c_void_p]
+# DuDynamic* newDuDynamicStateAction( DuCode* stateSpace, DuCode* actionSpace );
+newDuDynamicStateAction= core.newDuDynamicStateAction
+newDuDynamicStateAction.restype= c_void_p
+newDuDynamicStateAction.argtypes= [c_void_p, c_void_p]
 
-# DuInferer* newDuInfererStateActionShift( DuCode* stateSpace, DuCode* actionSpace, DuCode* shiftSpace );
-newDuInfererStateActionShift= core.newDuInfererStateActionShift
-newDuInfererStateActionShift.restype= c_void_p
-newDuInfererStateActionShift.argtypes= [c_void_p, c_void_p, c_void_p]
+# DuDynamic* newDuDynamicStateActionShift( DuCode* stateSpace, DuCode* actionSpace, DuCode* shiftSpace );
+newDuDynamicStateActionShift= core.newDuDynamicStateActionShift
+newDuDynamicStateActionShift.restype= c_void_p
+newDuDynamicStateActionShift.argtypes= [c_void_p, c_void_p, c_void_p]
 
-# DuInferer* DuInferer_create( DuInferer* self, DuCode* varDomains, digit inputDimention, digit outputDimention );
-DuInferer_create= core.DuInferer_create
-DuInferer_create.restype= c_void_p
-DuInferer_create.argtypes= [c_void_p, c_void_p, c_digit, c_digit]
+# DuDynamic* DuDynamic_create( DuDynamic* self, DuCode* varDomains, digit inputDimention, digit outputDimention );
+DuDynamic_create= core.DuDynamic_create
+DuDynamic_create.restype= c_void_p
+DuDynamic_create.argtypes= [c_void_p, c_void_p, c_digit, c_digit]
 
-# DuInferer* DuInferer_destroy( DuInferer* self );
-DuInferer_destroy= core.DuInferer_destroy
-DuInferer_destroy.restype= c_void_p
-DuInferer_destroy.argtypes= [c_void_p]
+# DuDynamic* DuDynamic_destroy( DuDynamic* self );
+DuDynamic_destroy= core.DuDynamic_destroy
+DuDynamic_destroy.restype= c_void_p
+DuDynamic_destroy.argtypes= [c_void_p]
 
-# void deleteDuInferer( DuInferer* self );
-deleteDuInferer= core.deleteDuInferer
-deleteDuInferer.restype= c_void_p
-deleteDuInferer.argtypes= [c_void_p]
+# void deleteDuDynamic( DuDynamic* self );
+deleteDuDynamic= core.deleteDuDynamic
+deleteDuDynamic.restype= c_void_p
+deleteDuDynamic.argtypes= [c_void_p]
 
-# DuBench* DuInferer_distribution( DuInferer* self );
-DuInferer_distribution= core.DuInferer_distribution
-DuInferer_distribution.restype= c_void_p
-DuInferer_distribution.argtypes= [c_void_p]
+# DuBench* DuDynamic_distribution( DuDynamic* self );
+DuDynamic_distribution= core.DuDynamic_distribution
+DuDynamic_distribution.restype= c_void_p
+DuDynamic_distribution.argtypes= [c_void_p]
 
-# digit DuInferer_inputDimention( DuInferer* self );
-DuInferer_inputDimention= core.DuInferer_inputDimention
-DuInferer_inputDimention.restype= c_digit
-DuInferer_inputDimention.argtypes= [c_void_p]
+# digit DuDynamic_inputDimention( DuDynamic* self );
+DuDynamic_inputDimention= core.DuDynamic_inputDimention
+DuDynamic_inputDimention.restype= c_digit
+DuDynamic_inputDimention.argtypes= [c_void_p]
 
-# digit DuInferer_outputDimention( DuInferer* self );
-DuInferer_outputDimention= core.DuInferer_outputDimention
-DuInferer_outputDimention.restype= c_digit
-DuInferer_outputDimention.argtypes= [c_void_p]
+# digit DuDynamic_outputDimention( DuDynamic* self );
+DuDynamic_outputDimention= core.DuDynamic_outputDimention
+DuDynamic_outputDimention.restype= c_digit
+DuDynamic_outputDimention.argtypes= [c_void_p]
 
-# digit DuInferer_shiftDimention( DuInferer* self );
-DuInferer_shiftDimention= core.DuInferer_shiftDimention
-DuInferer_shiftDimention.restype= c_digit
-DuInferer_shiftDimention.argtypes= [c_void_p]
+# digit DuDynamic_shiftDimention( DuDynamic* self );
+DuDynamic_shiftDimention= core.DuDynamic_shiftDimention
+DuDynamic_shiftDimention.restype= c_digit
+DuDynamic_shiftDimention.argtypes= [c_void_p]
 
-# digit DuInferer_overallDimention( DuInferer* self );
-DuInferer_overallDimention= core.DuInferer_overallDimention
-DuInferer_overallDimention.restype= c_digit
-DuInferer_overallDimention.argtypes= [c_void_p]
+# digit DuDynamic_overallDimention( DuDynamic* self );
+DuDynamic_overallDimention= core.DuDynamic_overallDimention
+DuDynamic_overallDimention.restype= c_digit
+DuDynamic_overallDimention.argtypes= [c_void_p]
 
-# DuCondition* DuInferer_node( DuInferer* self, digit iNode );
-DuInferer_node= core.DuInferer_node
-DuInferer_node.restype= c_void_p
-DuInferer_node.argtypes= [c_void_p, c_digit]
+# DuCondition* DuDynamic_node( DuDynamic* self, digit iNode );
+DuDynamic_node= core.DuDynamic_node
+DuDynamic_node.restype= c_void_p
+DuDynamic_node.argtypes= [c_void_p, c_digit]
 
-# digit DuInferer_node_size( DuInferer* self, digit iVar );
-DuInferer_node_size= core.DuInferer_node_size
-DuInferer_node_size.restype= c_digit
-DuInferer_node_size.argtypes= [c_void_p, c_digit]
+# digit DuDynamic_node_size( DuDynamic* self, digit iVar );
+DuDynamic_node_size= core.DuDynamic_node_size
+DuDynamic_node_size.restype= c_digit
+DuDynamic_node_size.argtypes= [c_void_p, c_digit]
 
-# DuCode* DuInferer_node_parents( DuInferer* self, digit iVar );
-DuInferer_node_parents= core.DuInferer_node_parents
-DuInferer_node_parents.restype= c_void_p
-DuInferer_node_parents.argtypes= [c_void_p, c_digit]
+# DuCode* DuDynamic_node_parents( DuDynamic* self, digit iVar );
+DuDynamic_node_parents= core.DuDynamic_node_parents
+DuDynamic_node_parents.restype= c_void_p
+DuDynamic_node_parents.argtypes= [c_void_p, c_digit]
 
-# DuCondition* DuInferer_reinitIndependantNode( DuInferer* self, digit index );
-DuInferer_reinitIndependantNode= core.DuInferer_reinitIndependantNode
-DuInferer_reinitIndependantNode.restype= c_void_p
-DuInferer_reinitIndependantNode.argtypes= [c_void_p, c_digit]
+# DuCondition* DuDynamic_reinitIndependantNode( DuDynamic* self, digit index );
+DuDynamic_reinitIndependantNode= core.DuDynamic_reinitIndependantNode
+DuDynamic_reinitIndependantNode.restype= c_void_p
+DuDynamic_reinitIndependantNode.argtypes= [c_void_p, c_digit]
 
-# DuCondition* DuInferer_node_reinitWith( DuInferer* self, digit index, DuCode* newParents );
-DuInferer_node_reinitWith= core.DuInferer_node_reinitWith
-DuInferer_node_reinitWith.restype= c_void_p
-DuInferer_node_reinitWith.argtypes= [c_void_p, c_digit, c_void_p]
+# DuCondition* DuDynamic_node_reinitWith( DuDynamic* self, digit index, DuCode* newParents );
+DuDynamic_node_reinitWith= core.DuDynamic_node_reinitWith
+DuDynamic_node_reinitWith.restype= c_void_p
+DuDynamic_node_reinitWith.argtypes= [c_void_p, c_digit, c_void_p]
 
-# DuCondition* DuInferer_node_reinitWith_withDefault( DuInferer* self, digit index, DuCode* newDependenceList, DuBench* newDefaultDistrib );
-DuInferer_node_reinitWith_withDefault= core.DuInferer_node_reinitWith_withDefault
-DuInferer_node_reinitWith_withDefault.restype= c_void_p
-DuInferer_node_reinitWith_withDefault.argtypes= [c_void_p, c_digit, c_void_p, c_void_p]
+# DuCondition* DuDynamic_node_reinitWith_withDefault( DuDynamic* self, digit index, DuCode* newDependenceList, DuBench* newDefaultDistrib );
+DuDynamic_node_reinitWith_withDefault= core.DuDynamic_node_reinitWith_withDefault
+DuDynamic_node_reinitWith_withDefault.restype= c_void_p
+DuDynamic_node_reinitWith_withDefault.argtypes= [c_void_p, c_digit, c_void_p, c_void_p]
 
-# DuBench* DuInferer_process( DuInferer* self, DuBench* inputDistribution );
-DuInferer_process= core.DuInferer_process
-DuInferer_process.restype= c_void_p
-DuInferer_process.argtypes= [c_void_p, c_void_p]
+# DuBench* DuDynamic_process( DuDynamic* self, DuBench* inputDistribution );
+DuDynamic_process= core.DuDynamic_process
+DuDynamic_process.restype= c_void_p
+DuDynamic_process.argtypes= [c_void_p, c_void_p]
 
-# DuBench* DuInferer_process_newOverallDistribution( DuInferer* self, DuBench* inputDistribution );
-DuInferer_process_newOverallDistribution= core.DuInferer_process_newOverallDistribution
-DuInferer_process_newOverallDistribution.restype= c_void_p
-DuInferer_process_newOverallDistribution.argtypes= [c_void_p, c_void_p]
+# DuBench* DuDynamic_process_newOverallDistribution( DuDynamic* self, DuBench* inputDistribution );
+DuDynamic_process_newOverallDistribution= core.DuDynamic_process_newOverallDistribution
+DuDynamic_process_newOverallDistribution.restype= c_void_p
+DuDynamic_process_newOverallDistribution.argtypes= [c_void_p, c_void_p]
 
-# DuBench* DuInferer_processState_Action( DuInferer* self, DuCode* state, DuCode* action );
-DuInferer_processState_Action= core.DuInferer_processState_Action
-DuInferer_processState_Action.restype= c_void_p
-DuInferer_processState_Action.argtypes= [c_void_p, c_void_p, c_void_p]
+# DuBench* DuDynamic_processState_Action( DuDynamic* self, DuCode* state, DuCode* action );
+DuDynamic_processState_Action= core.DuDynamic_processState_Action
+DuDynamic_processState_Action.restype= c_void_p
+DuDynamic_processState_Action.argtypes= [c_void_p, c_void_p, c_void_p]
 
-# char* DuInferer_print( DuInferer* self, char* output );
-DuInferer_print= core.DuInferer_print
-DuInferer_print.restype= c_void_p
-DuInferer_print.argtypes= [c_void_p, c_void_p]
+# char* DuDynamic_print( DuDynamic* self, char* output );
+DuDynamic_print= core.DuDynamic_print
+DuDynamic_print.restype= c_void_p
+DuDynamic_print.argtypes= [c_void_p, c_void_p]
 
-# char* DuInferer_printStateActionSignature( DuInferer* self, char* output );
-DuInferer_printStateActionSignature= core.DuInferer_printStateActionSignature
-DuInferer_printStateActionSignature.restype= c_void_p
-DuInferer_printStateActionSignature.argtypes= [c_void_p, c_void_p]
+# char* DuDynamic_printStateActionSignature( DuDynamic* self, char* output );
+DuDynamic_printStateActionSignature= core.DuDynamic_printStateActionSignature
+DuDynamic_printStateActionSignature.restype= c_void_p
+DuDynamic_printStateActionSignature.argtypes= [c_void_p, c_void_p]
 
-# char* DuInferer_printDependency( DuInferer* self, char* output );
-DuInferer_printDependency= core.DuInferer_printDependency
-DuInferer_printDependency.restype= c_void_p
-DuInferer_printDependency.argtypes= [c_void_p, c_void_p]
+# char* DuDynamic_printDependency( DuDynamic* self, char* output );
+DuDynamic_printDependency= core.DuDynamic_printDependency
+DuDynamic_printDependency.restype= c_void_p
+DuDynamic_printDependency.argtypes= [c_void_p, c_void_p]
 
 # DuEvaluator* newDuEvaluatorBasic( digit spaceDimention, digit numberOfCriteria );
 newDuEvaluatorBasic= core.newDuEvaluatorBasic

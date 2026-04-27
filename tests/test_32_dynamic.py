@@ -8,16 +8,16 @@ from pprint import pprint
 
 import src.demuu.clib as bbmm
 
-def test_DuInferer_init():
-    trans= bbmm.Inferer()
-    assert type(trans) == bbmm.Inferer
+def test_DuDynamic_init():
+    trans= bbmm.Dynamic()
+    assert type(trans) == bbmm.Dynamic
     assert( trans.inputDimention() == 1 )
     assert( trans.outputDimention() == 1 )
     assert( trans.shiftDimention() == 0 )
     assert( trans.overallDimention() == 2 )
 
-def test_DuInferer_init2():
-    trans= bbmm.Inferer( [2, 3, 4, 6], 2, 1 )
+def test_DuDynamic_init2():
+    trans= bbmm.Dynamic( [2, 3, 4, 6], 2, 1 )
     assert( trans.inputDimention() == 2 )
     assert( trans.outputDimention() == 1 )
     assert( trans.shiftDimention() == 1 )
@@ -30,8 +30,8 @@ def test_DuInferer_init2():
         assert( trans.node(1).parentSpace().asList() == [1] )
         assert( trans.parents(1).asList() == [] )
 
-def test_DuInferer_construction():
-    trans= bbmm.Inferer( [6, 3, 4, 6], 2, 1 )
+def test_DuDynamic_construction():
+    trans= bbmm.Dynamic( [6, 3, 4, 6], 2, 1 )
     
     assert( trans.node(1).range() == 6 )
     assert( trans.parents(1).asList() == [] )
@@ -73,8 +73,8 @@ def test_DuInferer_construction():
 
     assert( condition.distributionsList() == [ [(1, 1.0)], [(1, 1.0)], [(2, 1.0)] ] )
 
-def test_DuInferer_dump():
-    trans= bbmm.Inferer( [6, 3, 4, 6], 2, 1 )
+def test_DuDynamic_dump():
+    trans= bbmm.Dynamic( [6, 3, 4, 6], 2, 1 )
     condition= trans.node_setDependancy( 3, [1], [(1, 0.25), (2, 0.25), (3, 0.25), (4, 0.25)] )
     condition.fromList_set( [1], [(1, 1.0)] )
     condition.fromList_set( [2], [(2, 1.0)] )
@@ -119,11 +119,11 @@ def test_DuInferer_dump():
         ]
     }
     assert dump == dumpRef 
-    transBis= bbmm.Inferer().load( dump )
+    transBis= bbmm.Dynamic().load( dump )
     assert transBis.dump() == dumpRef
 
-def test_DuInferer_process421():
-    trans= bbmm.Inferer( [3, 6, 2, 3, 6], 3, 2 )
+def test_DuDynamic_process421():
+    trans= bbmm.Dynamic( [3, 6, 2, 3, 6], 3, 2 )
 
     cHorizon= trans.node_setDependancy( 4, [1], [(1, 1.0)] )
     cHorizon.fromList_set( [3], [(2, 1.0)] )

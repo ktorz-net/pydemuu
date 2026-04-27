@@ -5,79 +5,79 @@ from .bench import Bench
 from .tree import Tree
 from .condition import Condition
 
-class Inferer:
+class Dynamic:
     # Construction destruction:
-    def __init__(self, space=[2, 2], inputDimention=1, outputDimention=1, cinferer= None):
-        if cinferer is None :
+    def __init__(self, space=[2, 2], inputDimention=1, outputDimention=1, cdynamic= None):
+        if cdynamic is None :
             codeSpace= Code( space )
-            self._cinferer= cc.newDuInferer(
+            self._cdynamic= cc.newDuDynamic(
                      codeSpace._ccode,
                      c_digit(inputDimention),
                      c_digit(outputDimention)
             )
             self._cmaster= True
         else: 
-            self._cinferer= cinferer
+            self._cdynamic= cdynamic
             self._cmaster= False
 
     def __del__(self):
         if self._cmaster :
-            cc.deleteDuInferer( self._cinferer )
+            cc.deleteDuDynamic( self._cdynamic )
 
     # Accessor
     def distribution( self ):
-        return Bench( cbench= cc.DuInferer_distribution( self._cinferer ) )
+        return Bench( cbench= cc.DuDynamic_distribution( self._cdynamic ) )
 
     def inputDimention( self ):
-        return cc.DuInferer_inputDimention( self._cinferer )
+        return cc.DuDynamic_inputDimention( self._cdynamic )
     
     def outputDimention( self ):
-        return cc.DuInferer_outputDimention( self._cinferer )
+        return cc.DuDynamic_outputDimention( self._cdynamic )
 
     def shiftDimention( self ):
-        return cc.DuInferer_shiftDimention( self._cinferer )
+        return cc.DuDynamic_shiftDimention( self._cdynamic )
     
     def stateDimention( self ):
-        return cc.DuInferer_outputDimention( self._cinferer )
+        return cc.DuDynamic_outputDimention( self._cdynamic )
     
     def actionDimention( self ):
-        return cc.DuInferer_inputDimention( self._cinferer ) - cc.DuInferer_outputDimention( self._cinferer )
+        return cc.DuDynamic_inputDimention( self._cdynamic ) - cc.DuDynamic_outputDimention( self._cdynamic )
 
     def overallDimention( self ):
-        return cc.DuInferer_overallDimention( self._cinferer )
+        return cc.DuDynamic_overallDimention( self._cdynamic )
 
     def node(self, iVar):
-        return Condition( ccondition= cc.DuInferer_node(
-            self._cinferer, c_digit(iVar) )
+        return Condition( ccondition= cc.DuDynamic_node(
+            self._cdynamic, c_digit(iVar) )
         )
     
     def parents( self, iVar ):
-        return Code( ccode=cc.DuInferer_node_parents(
-            self._cinferer, c_digit(iVar) )
+        return Code( ccode=cc.DuDynamic_node_parents(
+            self._cdynamic, c_digit(iVar) )
         )
     def space( self ):
-        return [ cc.DuInferer_node_size( self._cinferer, c_digit(i) ) for i in range( 1, self.inputDimention()+1 ) ]
+        return [ cc.DuDynamic_node_size( self._cdynamic, c_digit(i) ) for i in range( 1, self.inputDimention()+1 ) ]
     
     def inputs( self ):
         inputBound= self.inputDimention()+1
-        return [ cc.DuInferer_node_size( self._cinferer, c_digit(i) ) for i in range( 1, inputBound ) ]
+        return [ cc.DuDynamic_node_size( self._cdynamic, c_digit(i) ) for i in range( 1, inputBound ) ]
     
     def outputs( self ):
         overBound= self.overallDimention()+1
         outputStart= overBound - self.outputDimention()
-        return [ cc.DuInferer_node_size( self._cinferer, c_digit(i) ) for i in range( outputStart, overBound ) ]
+        return [ cc.DuDynamic_node_size( self._cdynamic, c_digit(i) ) for i in range( outputStart, overBound ) ]
     
     def shifts( self ):
         inputBound= self.inputDimention()+1
         shiftBound= inputBound + self.shiftDimention()
-        return [ cc.DuInferer_node_size( self._cinferer, c_digit(i) ) for i in range( inputBound, shiftBound ) ]
+        return [ cc.DuDynamic_node_size( self._cdynamic, c_digit(i) ) for i in range( inputBound, shiftBound ) ]
     
     # Construction :
     def initialize( self, inputs, outputs, shifts= [] ):
         spaceCode= Code( inputs+shifts+outputs )
-        cc.DuInferer_destroy( self._cinferer )
-        cc.DuInferer_create(
-            self._cinferer,
+        cc.DuDynamic_destroy( self._cdynamic )
+        cc.DuDynamic_create(
+            self._cdynamic,
             spaceCode._ccode,
             c_digit( len(inputs) ), c_digit( len(outputs) )
         )
@@ -86,8 +86,8 @@ class Inferer:
     def node_setDependancyBm( self, iVar, parents, defaultDistrib ):
         assert( parents._cmaster and defaultDistrib._cmaster )
         assert( parents.dimention() > 0 )
-        ccond= cc.DuInferer_node_reinitWith_withDefault(
-            self._cinferer,
+        ccond= cc.DuDynamic_node_reinitWith_withDefault(
+            self._cdynamic,
             c_digit(iVar),
             parents._ccode,
             defaultDistrib._cbench
@@ -106,8 +106,8 @@ class Inferer:
     
     # Processing
     def processBench( self, inputDistribution ):
-        cc.DuInferer_process(
-            self._cinferer,
+        cc.DuDynamic_process(
+            self._cdynamic,
             inputDistribution._cbench
         )
         distrib= self.distribution()
@@ -124,7 +124,7 @@ class Inferer:
             condDump= self.node(i).dump()
             dumpNodes.append({
                 'nodeId': i,
-                'parents': Code( ccode= cc.DuInferer_node_parents( self._cinferer, c_digit(i) ) ).asList(),
+                'parents': Code( ccode= cc.DuDynamic_node_parents( self._cdynamic, c_digit(i) ) ).asList(),
                 'distributions': condDump['distributions'],
                 'selector': condDump['selector']
             })

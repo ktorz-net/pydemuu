@@ -12,7 +12,7 @@ from .function import Function
 
 ## LibDemuu :: COMPONENT MODULE :
 from .condition import Condition
-from .inferer import Inferer
+from .dynamic import Dynamic
 from .evaluator import Evaluator
 
 ## LibDemuu :: SOLVER MODULE :

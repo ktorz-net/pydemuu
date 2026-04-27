@@ -122,20 +122,20 @@ class Model():
         nbStateVar= len(stateVariables)
         nbActVar= len(actionVariables)
         space= [len(d) for d in self._domains ]
-        self._trans= core.Inferer( space, nbStateVar+nbActVar, nbStateVar )
+        self._trans= core.Dynamic( space, nbStateVar+nbActVar, nbStateVar )
         
         # Rewards function:
         self._rewards= core.Evaluator( space, numberOfCriteria )
 
     # Accessor
     def stateDimention(self):
-        return core.Inferer( cinferer=self._trans._cinferer ).stateDimention()
+        return core.Dynamic( cdynamic=self._trans._cdynamic ).stateDimention()
     
     def actionDimention(self):
-        return core.Inferer( cinferer=self._trans._cinferer ).actionDimention()
+        return core.Dynamic( cdynamic=self._trans._cdynamic ).actionDimention()
     
     def shiftDimention(self):
-        return core.Inferer( cinferer=self._trans._cinferer ).shiftDimention()
+        return core.Dynamic( cdynamic=self._trans._cdynamic ).shiftDimention()
     
     def nodes(self):
         return self._varNames

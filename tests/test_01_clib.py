@@ -60,12 +60,12 @@ def test_ccCondition_init():
     assert cc.DuCondition_range(cCondition) == 4
     cc.deleteDuCondition(cCondition)
 
-def test_ccInferer_init():
+def test_ccDynamic_init():
     cCode= cc.newDuCode_all(3, 3)
-    cInf= cc.newDuInferer( cCode, 2, 1)
-    assert cc.DuInferer_inputDimention(cInf) == 2
-    assert cc.DuInferer_outputDimention(cInf) == 1
-    cc.deleteDuInferer(cInf)
+    cInf= cc.newDuDynamic( cCode, 2, 1)
+    assert cc.DuDynamic_inputDimention(cInf) == 2
+    assert cc.DuDynamic_outputDimention(cInf) == 1
+    cc.deleteDuDynamic(cInf)
     cc.deleteDuCode( cCode )
 
 def test_ccEvaluator_init():
@@ -79,4 +79,4 @@ def test_ccEvaluator_init():
 
 # Activate sprcific test :
 if __name__ == '__main__':
-    test_ccInferer_init()
+    test_ccDynamic_init()

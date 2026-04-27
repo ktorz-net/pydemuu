@@ -17,7 +17,7 @@
  * 
  *   COMPONENT MODULE:
  *       - DuCondition    : Represent conditional probabilities of a variable [input code -> digit distribution] (i.e. Bayesian Network's Node)
- *       - DuInferer      : Define a Bayesian Network as P(output | input) - potentially Dynamic P(state' | state) or P(state' | state, action)
+ *       - DuDynamic      : Define a Bayesian Network as P(output | input) - potentially Dynamic P(state' | state) or P(state' | state, action)
  *       - DuEvaluator    : A value function over multiple criteria
  *
  *   MODEL MODUL:
@@ -25,7 +25,7 @@
  *       <- BmQTable       : Define a QValues structure.
  * 
  *   SOLVER MODULE:
- *       <- BmSolver_valueIt : DuInferer (transition), DuEvaluator (cost/reward), DuFunction (policy/value)
+ *       <- BmSolver_valueIt : DuDynamic (transition), DuEvaluator (cost/reward), DuFunction (policy/value)
  *       <-          : code (state) + code (action) -> value                    >
  * 
  * 
@@ -583,45 +583,45 @@ typedef struct {
   DuBench* network;
   DuCondition* nodes;
   DuBench* distribution;
-} DuInferer;
+} DuDynamic;
 
 //-- Constructor --
-DuInferer* newDuInferer( DuCode* variableSpace, digit inputDimention, digit outputDimention );
-DuInferer* newDuInfererStateAction( DuCode* stateSpace, DuCode* actionSpace );
-DuInferer* newDuInfererStateActionShift( DuCode* stateSpace, DuCode* actionSpace, DuCode* shiftSpace );
+DuDynamic* newDuDynamic( DuCode* variableSpace, digit inputDimention, digit outputDimention );
+DuDynamic* newDuDynamicStateAction( DuCode* stateSpace, DuCode* actionSpace );
+DuDynamic* newDuDynamicStateActionShift( DuCode* stateSpace, DuCode* actionSpace, DuCode* shiftSpace );
 
-DuInferer* DuInferer_create( DuInferer* self, DuCode* varDomains, digit inputDimention, digit outputDimention );
+DuDynamic* DuDynamic_create( DuDynamic* self, DuCode* varDomains, digit inputDimention, digit outputDimention );
 
 //-- Destructor --
-DuInferer* DuInferer_destroy(DuInferer* self);
-void deleteDuInferer(DuInferer* self);
+DuDynamic* DuDynamic_destroy(DuDynamic* self);
+void deleteDuDynamic(DuDynamic* self);
 
 //-- Accessor --
-DuBench* DuInferer_distribution( DuInferer* self );
+DuBench* DuDynamic_distribution( DuDynamic* self );
 
-digit DuInferer_inputDimention( DuInferer* self );
-digit DuInferer_outputDimention( DuInferer* self );
-digit DuInferer_shiftDimention( DuInferer* self );
-digit DuInferer_overallDimention( DuInferer* self );
+digit DuDynamic_inputDimention( DuDynamic* self );
+digit DuDynamic_outputDimention( DuDynamic* self );
+digit DuDynamic_shiftDimention( DuDynamic* self );
+digit DuDynamic_overallDimention( DuDynamic* self );
 
-DuCondition* DuInferer_node( DuInferer* self, digit iNode );
-digit DuInferer_node_size( DuInferer* self, digit iVar );
-DuCode* DuInferer_node_parents( DuInferer* self, digit iVar );
+DuCondition* DuDynamic_node( DuDynamic* self, digit iNode );
+digit DuDynamic_node_size( DuDynamic* self, digit iVar );
+DuCode* DuDynamic_node_parents( DuDynamic* self, digit iVar );
 
 //-- Construction --
-DuCondition* DuInferer_reinitIndependantNode( DuInferer* self, digit index );
-DuCondition* DuInferer_node_reinitWith( DuInferer* self, digit index, DuCode* newParents );
-DuCondition* DuInferer_node_reinitWith_withDefault( DuInferer* self, digit index, DuCode* newDependenceList, DuBench* newDefaultDistrib );
+DuCondition* DuDynamic_reinitIndependantNode( DuDynamic* self, digit index );
+DuCondition* DuDynamic_node_reinitWith( DuDynamic* self, digit index, DuCode* newParents );
+DuCondition* DuDynamic_node_reinitWith_withDefault( DuDynamic* self, digit index, DuCode* newDependenceList, DuBench* newDefaultDistrib );
 
 //-- Process --
-DuBench* DuInferer_process( DuInferer* self, DuBench* inputDistribution );        // Return distribution over output varibales
-DuBench* DuInferer_process_newOverallDistribution( DuInferer* self, DuBench* inputDistribution ); // Return distribution over all variables
-DuBench* DuInferer_processState_Action( DuInferer* self, DuCode* state, DuCode* action ); // Return distribution over statePrime (output)
+DuBench* DuDynamic_process( DuDynamic* self, DuBench* inputDistribution );        // Return distribution over output varibales
+DuBench* DuDynamic_process_newOverallDistribution( DuDynamic* self, DuBench* inputDistribution ); // Return distribution over all variables
+DuBench* DuDynamic_processState_Action( DuDynamic* self, DuCode* state, DuCode* action ); // Return distribution over statePrime (output)
 
 //-- Printing --
-char* DuInferer_print(DuInferer* self, char* output); // print `self` at the end of `output`
-char* DuInferer_printStateActionSignature(DuInferer* self, char* output); // print `self` at the end of `output`
-char* DuInferer_printDependency(DuInferer* self, char* output); // print `self` at the end of `output`
+char* DuDynamic_print(DuDynamic* self, char* output); // print `self` at the end of `output`
+char* DuDynamic_printStateActionSignature(DuDynamic* self, char* output); // print `self` at the end of `output`
+char* DuDynamic_printDependency(DuDynamic* self, char* output); // print `self` at the end of `output`
 
 
 /* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- *
