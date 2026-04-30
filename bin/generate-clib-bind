@@ -1,10 +1,11 @@
 #!/usr/bin/python3
+#
 # ------------------------------------------------------------------------ #
-#             C   T O   P Y  -  A   D e M U U   T O O L 
+#          C L I B   G E N E R A T O R  -  A   D e M U U   T O O L 
 #
 # Generate python access primitive from a c-header file.
-# Supose 'simple' c-header file: 
-#     - functions return only classical type (cf. typeDico) our pointers
+# Supposes 'simple' c-header file: 
+#     - The functions return only classical type (cf. typeDico) our pointers
 # ------------------------------------------------------------------------ #
 
 import re
@@ -68,7 +69,7 @@ def readCArray( py_type, c_type, size, arrayPointer ):
 
 demuuDir= os.path.dirname(os.path.realpath(__file__))
 demuuCLib= demuuDir+f"/{platform.system()}-{platform.machine()}/libDemuu.so"
-print( f"BbMm>>>> LOAD: {demuuCLib} <<<" )
+print( f"Demuu >>>> LOAD: {demuuCLib} <<<" )
 core = ctypes.cdll.LoadLibrary( demuuCLib )
 
 # HEADER_FILE.h wrap :
