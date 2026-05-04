@@ -1,4 +1,4 @@
-# PyDemuu - Demuu Python Library
+# pyDemuu - DeMUU Python Library
 
 It is mainly a Python wrapper of the _libDemuu_ elements.
 _PyDemuu_ also introduces some user-friendly Python classes to better manage _Demuu_ concepts.
