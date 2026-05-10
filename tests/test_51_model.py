@@ -12,7 +12,7 @@ import json
 def test_DuModel_init():
     model= Model()
     assert type(model) == Model
-    assert( model.nodes() == [] )
+    assert( model.variables() == [] )
     assert( model.domains() == [] )
 
 def test_DuModel_init2():
@@ -26,7 +26,12 @@ def test_DuModel_init2():
     assert( model.digits( [None, 6, "keep"] ) == [0, 6, 1] )
     assert( model.digits( [None, 6, "-"] ) == [0, 6, 0] )
 
-    assert( model.nodes() == [ "H-0", "D-0", "A" , "H-1", "D-1" ] )
+    assert( model.variables() == [ "H-0", "D-0", "A" , "H-1", "D-1" ] )
+    assert( model.stateVariables() == [ "H", "D" ] )
+
+    assert( model.actionVariables() == ["A"] )
+    assert( model.shiftVariables() == [] )
+
     for dModel, dRef in zip( model.domains(), [range(0, 3), range(1, 7), ["keep", "roll"], range(0, 3), range(1, 7)] ) :
         assert( dModel == dRef )
 
@@ -242,6 +247,10 @@ def test_DuModel_transition():
     #dump= model._rewards.dump()
     #pprint( dump )
     #assert dump == {}
+
+def test_DuModel_transition():
+    # Test transition and step function.
+    assert False
 
 def test_DuModel_simple421():
     import models.simple421 as m

@@ -105,7 +105,7 @@ class Reward():
         return self._model._rewards.criterion_setWeight( self._id, value )
 
 class Model():
-    # Construction destruction:
+    # Construction // Destruction:
     def __init__( self, stateVariables= {}, actionVariables= {}, shiftVariables= {}, numberOfCriteria=1 ) -> None:
         # Initialize variable enumeration :
         self._varNames= [ var+'-0' for var in stateVariables ]
@@ -137,14 +137,52 @@ class Model():
     def shiftDimention(self):
         return core.Dynamic( cdynamic=self._trans._cdynamic ).shiftDimention()
     
-    def nodes(self):
-        return self._varNames
 
+    def variables(self):
+        return self._varNames
+    
+    def stateVariables(self):
+        stateVariables= [ sName[:-2]
+            for sName in self._varNames[:self.stateDimention()] 
+        ]
+        return stateVariables
+
+    def actionVariables(self):
+        first= self.stateDimention()
+        end= first + self.actionDimention()
+        return self._varNames[first:end]
+
+    def shiftVariables(self):
+        first= self.stateDimention() + self.actionDimention()
+        end= first + self.shiftDimention()
+        return self._varNames[first:end]
+    
     def domains(self):
         return self._domains
 
     def domain(self, iNode):
         return self._domains[iNode-1]
+
+
+    def stateSpace(self):
+        return [ self.domain(i)
+            for i in range(1, self.stateDimention()+1)
+        ]
+
+    def actionSpace(self):
+        first= self.stateDimention()+1
+        end= first + self.actionDimention()
+        return [ self.domain(i)
+            for i in range(first, end)
+        ]
+
+    def shiftSpace(self):
+        first= self.stateDimention()+self.actionDimention()+1
+        end= first + self.shiftDimention()
+        return [ self.domain(i)
+            for i in range(first, end)
+        ]
+
 
     def node( self, variableName ):
         return Node( self, self._varIds[variableName] )
@@ -229,6 +267,10 @@ class Model():
         ]
         return distribution
     
+    def step( self, state, action=[] ):
+        distribution= self.transition()
+        assert( False )
+
     def reward( self, state, action, futur ):
         shift= [1 for i in range( self.shiftDimention() ) ]
         digitConfig= self.digits( state+action+shift+futur )
