@@ -210,7 +210,7 @@ def test_DuModel_transition():
         { "A": ["keep", "roll"] }
     )
 
-    nodeD= model.node("D-1").initialize( ["A", "D-0"], [(1, 1/6), (2, 1/6), (3, 1/6), (4, 1/6), (5, 1/6), (6, 1/6)] )
+    nodeD= model.node("D-1").initialize( ["A", "D-0"], [(1, 1/9), (2, 2/9), (3, 1/3), (4, 1/9), (5, 1/9), (6, 1/9)] )
 
     nodeD.setConditionalDistribution( ["keep", 1], [(1, 1.0)] )
     nodeD.setConditionalDistribution( ["keep", 2], [(2, 1.0)] )
@@ -222,12 +222,12 @@ def test_DuModel_transition():
     model.node( "H-1" ).create( ["H-0"], lambda config: [(max( config[0]-1, 0 ), 1.0)] )
 
     assert( model.digitTransition( [2, 5], [2] ) == [
-        ([1, 1], 1/6),
-        ([1, 2], 1/6),
-        ([1, 3], 1/6),
-        ([1, 4], 1/6),
-        ([1, 5], 1/6),
-        ([1, 6], 1/6),
+        ([1, 1], 1/9),
+        ([1, 2], 2/9),
+        ([1, 3], 1/3),
+        ([1, 4], 1/9),
+        ([1, 5], 1/9),
+        ([1, 6], 1/9)
     ])
 
     print( "---" )
@@ -236,24 +236,37 @@ def test_DuModel_transition():
 
     assert( model.digits( [1, 5, "roll"] ) == [2, 5, 2] )
     assert( model.transition( [1, 5], ["roll"] ) == [
-        ([0, 1], 1/6),
-        ([0, 2], 1/6),
-        ([0, 3], 1/6),
-        ([0, 4], 1/6),
-        ([0, 5], 1/6),
-        ([0, 6], 1/6),
+        ([0, 1], 1/9),
+        ([0, 2], 2/9),
+        ([0, 3], 1/3),
+        ([0, 4], 1/9),
+        ([0, 5], 1/9),
+        ([0, 6], 1/9)
     ])
+    
+    simu= model.step( [1, 5], ["roll"] )
+    assert simu[0] == 0
+    assert 1 <= simu[1] and simu[1] <= 6
 
-    #dump= model._rewards.dump()
-    #pprint( dump )
-    #assert dump == {}
+    counters= [0 for i in range(7)]
+    for i in range(10000) :
+        simu= model.step( [1, 5], ["roll"] )
+        assert simu[0] == 0
+        assert 1 <= simu[1] and simu[1] <= 6
+        counters[simu[1]] += 1
 
-def test_DuModel_transition():
-    # Test transition and step function.
-    assert False
+    counters=[ round(x/100, 1) for x in counters ]
+    refs= [0.0, 11.11, 22.22, 33.33, 11.11,11.11, 11.11]
+    print( counters )
+    print( refs )
+    
+    for v, r in zip(counters, refs) :
+        assert r-1 <= v and v <= r+1
 
 def test_DuModel_simple421():
     import models.simple421 as m
     model= m.generate()
+    
+    assert False
 
     #assert model.dump == {".json"}

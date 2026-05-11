@@ -1,6 +1,8 @@
 # Core LibBbMm Wraps:
 from . import clib as core
 
+import random
+
 ### Model Node (A node in a Dynamic Bayesian Network)
 class Node():
     # Construction destruction:
@@ -268,9 +270,15 @@ class Model():
         return distribution
     
     def step( self, state, action=[] ):
-        distribution= self.transition()
-        assert( False )
-
+        distribution= self.transition(state, action)
+        s= random.random()
+        for i in range(0, len(distribution) ) :
+            nextState, proba= distribution[i]
+            if s < proba :
+                return nextState
+            s-= proba
+        return distribution[-1][0]
+    
     def reward( self, state, action, futur ):
         shift= [1 for i in range( self.shiftDimention() ) ]
         digitConfig= self.digits( state+action+shift+futur )
