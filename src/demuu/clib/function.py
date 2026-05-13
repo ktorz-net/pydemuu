@@ -1,7 +1,6 @@
 from ctypes import c_uint, c_double, c_void_p, c_ulong
 import os
 
-from numpy import empty
 from . import clibdemuu as cc
 from .code import Code
 from .bench import Bench
