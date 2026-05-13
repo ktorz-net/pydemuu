@@ -5,7 +5,7 @@ _PyDemuu_ also introduces some user-friendly Python classes to better manage _De
 
 ## Install
 
-**Attention:** Actually, only `x86` machin under `Linux` OS are supported.
+**Attention:** Actually, only `x86` machine under `Linux` OS or `Window` are supported.
 
 The _pyDemuu_ package does not rely on any dependencies.
 Installation is performed with _pip_ after cloning this repository:
