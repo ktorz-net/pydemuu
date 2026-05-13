@@ -1,4 +1,6 @@
+# GENERATED
 import os, ctypes, platform
+from .. import log
 
 # ------------------------------------------------------------------------ #
 #            P Y T H O N   W R A P E R   O F   l i b D e m u u
@@ -9,16 +11,26 @@ import os, ctypes, platform
 #                /!\ THIS FILE SHOULD NOT BE MODIFIED /!\
 # ------------------------------------------------------------------------ #
 
-# Usefull ctype types:
+# Load C Demuu librairy : 
+systemExtention= {
+    "Linux": "so",
+    "Windows": "dll"
+}
+demuuDir= os.path.dirname(os.path.realpath(__file__))
+system, machine= platform.system(), platform.machine()
+ext= systemExtention[system]
 
+demuuCLib= demuuDir+f"/{system}-{machine}/libDemuu.{ext}"
+log.info( f"load: {demuuCLib}" )
+core = ctypes.cdll.LoadLibrary( demuuCLib )
+
+# Usefull ctype types:
 from ctypes import c_ushort, c_ulong, c_double, c_void_p
 
 # Usefull Demuu basis types:
-
 c_digit, c_hash= c_ushort, c_ulong
 
 # CArray tools :
-
 def makeCArray( c_type, size, value ):
     Array= c_type * size
     cArray= Array()
@@ -37,14 +49,9 @@ def readCArray( py_type, c_type, size, arrayPointer ):
     pLst= ctypes.cast(arrayPointer, ctypes.POINTER(c_type))
     return [ (py_type)(pLst[i]) for i in range(size) ]
 
-# Load C Demuu librairy : 
-
-demuuDir= os.path.dirname(os.path.realpath(__file__))
-demuuCLib= demuuDir+f"/{platform.system()}-{platform.machine()}/libDemuu.so"
-print( f"BbMm>>>> LOAD: {demuuCLib} <<<" )
-core = ctypes.cdll.LoadLibrary( demuuCLib )
-
+# ------------------------------------------------------------------------ #
 # src/demuu/clib/demuu.h wrap :
+# ------------------------------------------------------------------------ #
 
 
 # DuCode* newDuCode( digit dimension );
